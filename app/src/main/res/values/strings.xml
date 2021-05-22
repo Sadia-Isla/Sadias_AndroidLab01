@@ -3,5 +3,6 @@
     <string name="hello_message">Hello world!</string>
     <string name="editmessage">I\\\'m an EditText</string>
     <string name="hinttext">Write something here</string>
+    <string name="button_message">I\\\'m a Button</string>
 
 </resources>

@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -53,13 +55,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        thetext.setText( "This is new text");
+        thetext.setText( "I am a Button");
 
         myButton.setText( thetext.getText());
 
         CheckBox mycb = findViewById(R.id.thecheckbox);
+
+        mycb.setOnCheckedChangeListener((checkbox, isChecked) -> {
+            Context context = getApplicationContext();
+            CharSequence text = "You clicked on the Checkbox" + " and it is now: "
+                    + isChecked;
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } );
         Switch mySwitch =findViewById(R.id.myswitch);
+        mySwitch.setOnCheckedChangeListener((btn, isChecked) -> {
+            Context context = getApplicationContext();
+            CharSequence text = "You clicked on the Switch" + " and it is now: "
+                    + isChecked;
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } );
         RadioButton myrb = findViewById(R.id.theradiobutton);
+        myrb.setOnCheckedChangeListener((btn, isChecked) -> {
+            Context context = getApplicationContext();
+            CharSequence text = "You clicked on the RadioButton" + " and it is now: "
+                    + isChecked;
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } );
         ImageView myimage =findViewById(R.id.imageView);
 
     }

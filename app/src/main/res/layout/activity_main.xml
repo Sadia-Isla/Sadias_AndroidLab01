@@ -24,16 +24,16 @@
         android:id="@+id/mybutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/" />
+        android:text="@string/button_message" />
 
    <CheckBox
        android:id="@+id/thecheckbox"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="I'm a checkbox" />
+       android:text="CheckBox" />
 
     <Switch
-        android:text="I'm a switch"
+        android:text="Switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/myswitch"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/theradiobutton"
-        android:text="I'm a radiobutton"
+        android:text="RadioButton"
         />
     <ImageView
         android:id="@+id/imageView"
