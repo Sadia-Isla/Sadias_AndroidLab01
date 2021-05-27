@@ -5,4 +5,8 @@
     <string name="button_message">je suis un bouton</string>
     <string name="editmessage">Je suis un EditText</string>
     <string name="hinttext">Écrivez quelque chose ici</string>
+    <string name="spin_message">Drapeau de rotation</string>
+    <string name="Button1">Bouton1</string>
+    <string name="Button2">Bouton2</string>
+    <string name="Button3">Bouton3</string>
 </resources>
