@@ -6,26 +6,26 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="27dp"
-    android:layout_marginBottom="70dp"
     android:layout_marginLeft="48dp"
+    android:layout_marginTop="27dp"
     android:layout_marginRight="48dp"
+    android:layout_marginBottom="27dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/middlebutton6"
+        android:id="@+id/leftbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:nextFocusLeft="@id/leftbutton5"
-        android:nextFocusRight="@id/rightbutton7"
-        android:nextFocusUp="@id/middlebutton6"
-        android:nextFocusDown="@id/flagView"
+        android:nextFocusLeft="@id/rightbutton"
+        android:nextFocusRight="@id/middlebutton"
+        android:nextFocusUp="@id/leftbutton"
+        android:nextFocusDown="@id/spin_switch"
         android:text="@string/Button1"
-        app:layout_constraintEnd_toStartOf="@+id/leftbutton5"
+        app:layout_constraintEnd_toStartOf="@+id/middlebutton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,57 +33,55 @@
     <Button
 
 
-        android:id="@+id/leftbutton5"
+        android:id="@+id/middlebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:layout_marginStart="32dp"
-        android:nextFocusLeft="@id/leftbutton5"
-        android:nextFocusRight="@id/middlebutton6"
+        android:nextFocusLeft="@id/leftbutton"
+        android:nextFocusRight="@id/rightbutton"
 
-        android:nextFocusUp="@id/leftbutton5"
-        android:nextFocusDown="@id/flagView"
+        android:nextFocusUp="@id/middlebutton"
+        android:nextFocusDown="@id/spin_switch"
         android:text="@string/Button2"
-        app:layout_constraintEnd_toStartOf="@+id/rightbutton7"
+        app:layout_constraintEnd_toStartOf="@+id/rightbutton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/middlebutton6"
-        app:layout_constraintTop_toTopOf="@+id/middlebutton6" />
+        app:layout_constraintStart_toEndOf="@+id/leftbutton"
+        app:layout_constraintTop_toTopOf="@+id/leftbutton" />
 
     <Button
-        android:id="@+id/rightbutton7"
+        android:id="@+id/rightbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:layout_marginStart="32dp"
-        android:nextFocusLeft="@id/middlebutton6"
-        android:nextFocusRight="@id/rightbutton7"
-        android:nextFocusUp="@id/rightbutton7"
-        android:nextFocusDown="@id/flagView"
+        android:nextFocusLeft="@id/middlebutton"
+        android:nextFocusRight="@id/leftbutton"
+        android:nextFocusUp="@id/rightbutton"
+        android:nextFocusDown="@id/spin_switch"
         android:text="@string/Button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/leftbutton5"
-        app:layout_constraintTop_toTopOf="@+id/leftbutton5" />
+        app:layout_constraintStart_toEndOf="@+id/middlebutton"
+        app:layout_constraintTop_toTopOf="@+id/middlebutton" />
 
     <ImageView
         android:id="@+id/flagView"
         android:layout_width="152dp"
         android:layout_height="117dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="@+id/middlebutton6"
-        app:layout_constraintTop_toBottomOf="@+id/middlebutton6"
+        app:layout_constraintStart_toStartOf="@+id/leftbutton"
+        app:layout_constraintTop_toBottomOf="@+id/leftbutton"
         app:srcCompat="@drawable/flag" />
 
     <Switch
 
         android:id="@+id/spin_switch"
-
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:nextFocusUp="@id/middlebutton6"
+        android:nextFocusUp="@id/leftbutton"
         android:text="@string/spin_message"
         app:layout_constraintBottom_toBottomOf="@+id/flagView"
         app:layout_constraintEnd_toEndOf="parent"
