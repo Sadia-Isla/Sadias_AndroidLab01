@@ -1,22 +1,39 @@
 package algonquin.cst2335.isla0059;
 
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+
 
 public class MainActivity extends AppCompatActivity {
     private static String TAG ="MainActivity";
+
+    SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences.Editor  editor = prefs.edit();
+        Object defaultValue = new Object();
+        prefs.getString("VariableName", String defaultValue);
+        Object value = new Object();
+        Object name = null;
+        editor.putString(String null, String value);
+        editor.apply();
+
+
+
+
 
         Button loginBtn = findViewById(R.id.nextPageButton);
         Log.w("MainActivity", "In onCreate() - Loading Widgets" );
@@ -40,6 +57,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.e(TAG, "In onResume()");
     }
-    //onStop() onPause()
+
 
 }
