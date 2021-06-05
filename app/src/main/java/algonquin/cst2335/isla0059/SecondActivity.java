@@ -65,19 +65,18 @@ public class SecondActivity extends AppCompatActivity {
 
         if(file.exists())
         {
-Bitmap bmp = BitmapFactory.decodeFile( pathToHere + "/Picture.png");
-profileImage.setImageBitmap(bmp);
+            Bitmap bmp = BitmapFactory.decodeFile( pathToHere + "/Picture.png");
+            profileImage.setImageBitmap(bmp);
         }
-        
-        
+
         Intent fromPrevious = getIntent();
-        String text = fromPrevious.getStringExtra("TypeWords");
+        String emailAddress = fromPrevious.getStringExtra("EmailAddress");
 
         TextView topOfScreen = findViewById(R.id.textView);
 
         int age = fromPrevious.getIntExtra("Age", 0);
         float notThere = fromPrevious.getFloatExtra("notHere", 4.0f);
-        topOfScreen.setText("Welcome back: " + text);
+        topOfScreen.setText("Welcome back: " + emailAddress);
 
         Button btn1 = findViewById(R.id.button);
         btn1.setOnClickListener(clk -> {
@@ -91,15 +90,8 @@ profileImage.setImageBitmap(bmp);
 
             startActivityForResult( cameraIntent, 3456);
 
-
-
-
-
-
         });
 
     }
-
-
 
 }

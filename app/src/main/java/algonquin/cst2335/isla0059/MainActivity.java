@@ -14,7 +14,8 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     private static String TAG ="MainActivity";
-    SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+
+
 
     @Override //screen is now visible
     protected void onStart() {
@@ -29,19 +30,27 @@ public class MainActivity extends AppCompatActivity {
         Log.w("MainActivity", "In onCreate() - Loading Widgets" );
         Button loginBtn = findViewById(R.id.nextPageButton);
         Log.w("MainActivity", "In onCreate() - Loading Widgets" );
-        EditText TypeWords = findViewById(R.id.emailEditText);
-        String TypeWords = prefs.getString("LoginName", "");
-        SharedPreferences.Editor  editor = prefs.edit();
-        editor.putString(TypeWords,TypeWords);
-        editor.apply();
+
+        EditText EmailAddress = findViewById(R.id.emailEditText);
+
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        String emailAddress = prefs.getString("LoginName", "");
+
+        EmailAddress.setText(emailAddress);
 
         loginBtn.setOnClickListener( clk -> {
 
             Intent nextPage = new Intent(MainActivity.this, SecondActivity.class);
-            nextPage.putExtra("TypeWords", TypeWords.getText().toString());
+            nextPage.putExtra("EmailAddress", EmailAddress.getText().toString());
+            SharedPreferences.Editor  editor = prefs.edit();
+            editor.putString( "LoginName", emailAddress);
+            editor.apply();
             nextPage.putExtra("Age", 25);
             startActivity( nextPage);
+
+
         });
+
     }
 
     @Override
