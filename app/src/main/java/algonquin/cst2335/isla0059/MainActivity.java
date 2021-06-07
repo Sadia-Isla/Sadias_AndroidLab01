@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             Intent nextPage = new Intent(MainActivity.this, SecondActivity.class);
             nextPage.putExtra("EmailAddress", EmailAddress.getText().toString());
             SharedPreferences.Editor  editor = prefs.edit();
-            editor.putString( "LoginName", emailAddress);
+            editor.putString( "LoginName", EmailAddress.getText().toString());
             editor.apply();
             nextPage.putExtra("Age", 25);
             startActivity( nextPage);
