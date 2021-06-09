@@ -14,7 +14,9 @@ import android.graphics.Picture;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -80,7 +82,6 @@ public class SecondActivity extends AppCompatActivity {
         float notThere = fromPrevious.getFloatExtra("notHere", 4.0f);
         topOfScreen.setText("Welcome back: " + emailAddress);
 
-
         Button btn1 = findViewById(R.id.button);
 
 
@@ -99,4 +100,5 @@ public class SecondActivity extends AppCompatActivity {
         });
 
     }
+
 }
