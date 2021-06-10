@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +29,8 @@ import java.text.BreakIterator;
 public class SecondActivity extends AppCompatActivity {
 
     ImageView profileImage;
-
+    EditText phone;
+    SharedPreferences prefs2;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -80,14 +82,19 @@ public class SecondActivity extends AppCompatActivity {
         float notThere = fromPrevious.getFloatExtra("notHere", 4.0f);
         topOfScreen.setText("Welcome back: " + emailAddress);
 
-
         Button btn1 = findViewById(R.id.button);
-
+        prefs2 = getSharedPreferences("MyData", MODE_PRIVATE);
+        phone = findViewById(R.id.editTextPhone);
+        String phoneNo = prefs2.getString("PhoneNo", "");
+        phone.setText(phoneNo);
 
         btn1.setOnClickListener(clk -> {
             Intent next = new Intent(Intent.ACTION_DIAL);
 
-            next.setData(Uri.parse("tel:" + "613 123 4567"));
+            next.setData(Uri.parse("tel:" + phone.getText().toString()));
+            SharedPreferences.Editor editor2 = prefs2.edit();
+            editor2.putString("PhoneNo", phone.getText().toString());
+            editor2.apply();
             startActivity(next);
         });
         Button btn2 = findViewById(R.id.button2);
@@ -97,6 +104,12 @@ public class SecondActivity extends AppCompatActivity {
             startActivityForResult(cameraIntent, 3456);
 
         });
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
 
     }
 }
