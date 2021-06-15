@@ -9,6 +9,7 @@
         android:id="@+id/message"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+
         android:text="Message goes here"
         app:layout_constraintEnd_toStartOf="@+id/imageView3"
         tools:layout_editor_absoluteY="0dp" />

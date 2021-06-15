@@ -38,7 +38,7 @@ public class ChatRoom extends AppCompatActivity {
 
         send.setOnClickListener(click ->
                 {
-                    ChatMessage thisMessage = new ChatMessage("I am send message", 1, date);
+                    ChatMessage thisMessage = new ChatMessage( messageTyped.getText().toString(), 1, date);
                     messages.add( thisMessage );
                     messageTyped.setText(" ");
                     adt.notifyItemInserted( messages.size() - 1);
@@ -48,10 +48,10 @@ public class ChatRoom extends AppCompatActivity {
 
         receive.setOnClickListener(click ->
                 {
-                    ChatMessage thisMessage = new ChatMessage("I am receive message", 2, date);
+                    ChatMessage thisMessage = new ChatMessage(messageTyped.getText().toString(), 2, date);
                     messages.add( thisMessage );
                     messageTyped.setText(" ");
-                    adt.notifyItemInserted( messages.size() - 1);
+                    adt.notifyItemInserted( messages.size() -1);
 
                 }
         );
@@ -61,7 +61,7 @@ public class ChatRoom extends AppCompatActivity {
     private class MyRowViews extends RecyclerView.ViewHolder{
         TextView messageText;
         TextView timeText;
-        int position = -1;
+        int position;
         public MyRowViews( View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.message);
@@ -104,8 +104,8 @@ public class ChatRoom extends AppCompatActivity {
             if(viewType == 1)
                 layoutID = R.layout.sent_message;
             else
-                layoutID =R.layout.receive_message;
-            View loadedRow = inflater.inflate(R.layout.sent_message, parent, false);
+                layoutID = R.layout.receive_message;
+            View loadedRow = inflater.inflate(layoutID, parent, false);
             return new MyRowViews(loadedRow);
         }
 
