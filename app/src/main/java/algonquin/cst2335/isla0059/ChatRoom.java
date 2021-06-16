@@ -52,7 +52,7 @@ public class ChatRoom extends AppCompatActivity {
                     messages.add( thisMessage );
                     messageTyped.setText(" ");
                     adt.notifyItemInserted( messages.size()-1);
-                    //adt.notifyDataSetChanged( );
+
 
                 }
         );
