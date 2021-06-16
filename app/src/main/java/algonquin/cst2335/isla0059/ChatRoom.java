@@ -144,17 +144,18 @@ public class ChatRoom extends AppCompatActivity {
             this.timeSent = timeSent;
         }
 
-
-
         public String getTimeSent() {
+
             return currentDateAndTime;
         }
 
         public String getMessage() {
+
             return message;
         }
 
         public int getSendOrReceive() {
+
             return sendOrReceive;
         }
     }
