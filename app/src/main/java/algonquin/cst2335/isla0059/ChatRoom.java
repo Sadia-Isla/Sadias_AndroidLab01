@@ -41,7 +41,7 @@ public class ChatRoom extends AppCompatActivity {
                     ChatMessage thisMessage = new ChatMessage( messageTyped.getText().toString(), 1, date);
                     messages.add( thisMessage );
                     messageTyped.setText(" ");
-                    adt.notifyItemInserted( messages.size() - 1);
+                    adt.notifyItemInserted( messages.size());
 
                 }
         );
@@ -51,7 +51,8 @@ public class ChatRoom extends AppCompatActivity {
                     ChatMessage thisMessage = new ChatMessage(messageTyped.getText().toString(), 2, date);
                     messages.add( thisMessage );
                     messageTyped.setText(" ");
-                    adt.notifyItemInserted( messages.size() -1);
+                    adt.notifyItemInserted( messages.size()-1);
+                    //adt.notifyDataSetChanged( );
 
                 }
         );
@@ -90,9 +91,9 @@ public class ChatRoom extends AppCompatActivity {
             });
         }
 
-        public void setPosition(int p) {
-            position = p;
-        }
+       // public void setPosition(int p) {
+         //   position = p;
+       // }
     }
 
     private class MyChatAdapter extends RecyclerView.Adapter<MyRowViews>{
@@ -113,7 +114,7 @@ public class ChatRoom extends AppCompatActivity {
         public void onBindViewHolder(MyRowViews holder, int position) {
             holder.messageText.setText(messages.get(position).getMessage());
             holder.timeText.setText(messages.get(position).getTimeSent());
-            holder.setPosition(position);
+           // holder.setPosition(position);
         }
 
         @Override
