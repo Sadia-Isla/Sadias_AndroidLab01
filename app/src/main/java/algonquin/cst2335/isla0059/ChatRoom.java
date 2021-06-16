@@ -125,7 +125,7 @@ public class ChatRoom extends AppCompatActivity {
         @Override
         public int getItemViewType(int position) {
             ChatMessage thisRow = messages.get(position);
-            return super.getItemViewType(position);
+            return thisRow.getSendOrReceive();
         }
     }
 
