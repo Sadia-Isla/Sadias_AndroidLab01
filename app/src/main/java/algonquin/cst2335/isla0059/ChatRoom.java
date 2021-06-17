@@ -91,9 +91,7 @@ public class ChatRoom extends AppCompatActivity {
             });
         }
 
-       // public void setPosition(int p) {
-         //   position = p;
-       // }
+
     }
 
     private class MyChatAdapter extends RecyclerView.Adapter<MyRowViews>{
