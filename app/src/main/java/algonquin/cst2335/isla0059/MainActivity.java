@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        boolean foundUpperCase, foundLowerCase, foundNumber, foundSpecial;
-        foundUpperCase = foundLowerCase = foundNumber = foundSpecial = false;
+
 
          tv = findViewById(R.id.textView);
          et = findViewById(R.id.editText);
@@ -37,58 +36,75 @@ public class MainActivity extends AppCompatActivity {
 
         btn.setOnClickListener(clk ->{
             String password = et.getText().toString();
-            checkPasswordComplexity(password);
-
-            if(!foundUpperCase)
-            {
-
-                Toast.makeText(getApplicationContext(),"missing an upper case letter",Toast.LENGTH_SHORT).show();  ;// Say that they are missing an upper case letter;
-
-                return true;
-
-            }
-
-            else if( ! foundLowerCase)
-            {
-                Toast.makeText(getApplicationContext(),"missing a lower case letter",Toast.LENGTH_SHORT).show(); ; // Say that they are missing a lower case letter;
-
-                return true;
-
-            }
-
-            else if( ! foundNumber) {
-                Toast.makeText(getApplicationContext()," found a number",Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            else if(! foundSpecial) {
-
-                Toast.makeText(getApplicationContext()," found a number",Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
+            if (checkPasswordComplexity(password))
+                tv.setText("Your password meets the requirements");
             else
+                tv.setText("You shall not pass!");
 
-                return true; //only get here if they're all true
         });
 
     }
 
     /**
      * @param pw The String object that we are checking
-     * @return Returns true if
+     * @return Returns true if requirements is met or false if not met
      */
      boolean checkPasswordComplexity(String pw) {
-         return pw.contains("ABC");
+         //return pw.contains("ABC");
+         boolean foundUpperCase, foundLowerCase, foundNumber, foundSpecial;
+         foundUpperCase = foundLowerCase = foundNumber = foundSpecial = false;
+         for (int i = 0; i < pw.length(); i++) {
+             char c = pw.charAt(i);
+            if(Character.isUpperCase(c))
+                foundUpperCase = true;
+            else if (Character.isLowerCase(c))
+                foundLowerCase = true;
+            else if (Character.isDigit(c))
+                foundNumber = true;
+            else if (isSpecialCharacter(c))
+                foundSpecial = true;
+         }
+             if (!foundUpperCase) {
+
+                 Toast.makeText(getApplicationContext(), "missing an upper case letter", Toast.LENGTH_SHORT).show();
+                 ;// Say that they are missing an upper case letter;
+                 return false;
+
+             } else if (!foundLowerCase) {
+                 Toast.makeText(getApplicationContext(), "missing a lower case letter", Toast.LENGTH_SHORT).show();
+                 ; // Say that they are missing a lower case letter;
+
+                 return false;
+             } else if (!foundNumber) {
+                 Toast.makeText(getApplicationContext(), " missing a number", Toast.LENGTH_SHORT).show();
+                 return false;
+             } else if (!foundSpecial) {
+
+                 Toast.makeText(getApplicationContext(), " missing special character", Toast.LENGTH_SHORT).show();
+                 return false;
+             } else
+                 return true; //only get here if they're all true
+     }
+
+    /**
+     *
+     * @param c The special character object that we are checking
+     * @return true if found or false if not
+     */
+    boolean isSpecialCharacter ( char c){
+        switch (c) {
+            case '#':
+            case '?':
+            case '*':
+            case '$':
+            case '%':
+            case '&':
+            case '^':
+            case '!':
+            case '@':
+                return true;
+            default:
+                return false;
+        }
     }
-
-
-
-
-
-
-
-
-
-
 }
