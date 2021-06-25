@@ -74,7 +74,7 @@ public class ChatRoom extends AppCompatActivity {
                 .setTitle("Question: ")
                 .setNegativeButton( "No", (dialog, cl )-> {})
                 .setPositiveButton("Yes",(dialog, cl )-> {
-                    position = getAbsoluteAdapterPosition();
+                   // position = getAbsoluteAdapterPosition();
                     ChatMessage removedMessage = messages.get(position);
                     messages.remove(position);
                     adt.notifyItemRemoved( position );
@@ -91,7 +91,9 @@ public class ChatRoom extends AppCompatActivity {
             });
         }
 
-
+        public void setPosition(int p) {
+            position = p;
+        }
     }
 
     private class MyChatAdapter extends RecyclerView.Adapter<MyRowViews>{
@@ -112,7 +114,7 @@ public class ChatRoom extends AppCompatActivity {
         public void onBindViewHolder(MyRowViews holder, int position) {
             holder.messageText.setText(messages.get(position).getMessage());
             holder.timeText.setText(messages.get(position).getTimeSent());
-           // holder.setPosition(position);
+            holder.setPosition(position);
         }
 
         @Override
