@@ -1,5 +1,7 @@
 package algonquin.cst2335.isla0059;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,9 +32,12 @@ public class ChatRoom extends AppCompatActivity {
 
         EditText messageTyped = findViewById(R.id.messageEdit);
         MyOpenHelper opener = new MyOpenHelper( this );
+        SQLiteDatabase db = opener.getWritableDatabase();
+
         Button send = findViewById(R.id.sendButton);
         Button receive = findViewById(R.id.receiveButton);
         chatList = findViewById(R.id.myrecycler);
+       db.rawQuery("Select * from " + MyOpenHelper.TABLE_NAME + ";", null);
         adt = new MyChatAdapter();
         chatList.setAdapter(adt);
         chatList.setLayoutManager(new LinearLayoutManager(this));
@@ -40,9 +45,16 @@ public class ChatRoom extends AppCompatActivity {
         send.setOnClickListener(click ->
                 {
                     ChatMessage thisMessage = new ChatMessage( messageTyped.getText().toString(), 1, date);
+
+                    ContentValues newRow = new ContentValues();
+                    newRow.put(MyOpenHelper.col_message, thisMessage.getMessage());
+                    newRow.put(MyOpenHelper.col_send_receive, thisMessage.getSendOrReceive());
+                    newRow.put(MyOpenHelper.col_time_sent, thisMessage.getTimeSent());
+                    long newId = db.insert(MyOpenHelper.TABLE_NAME, MyOpenHelper.col_message, newRow);
+
                     messages.add( thisMessage );
                     messageTyped.setText(" ");
-                    adt.notifyItemInserted( messages.size());
+                    adt.notifyItemInserted( messages.size()-1);
 
                 }
         );
@@ -135,6 +147,10 @@ public class ChatRoom extends AppCompatActivity {
         int sendOrReceive;
         Date timeSent;
         String currentDateAndTime;
+        long id;
+
+         public void setId(long l){ id = l;}
+         public long getId(){ return id ;}
 
         public ChatMessage(String message, int sendOrReceive, Date timeSent) {
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a", Locale.getDefault());
