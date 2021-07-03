@@ -25,6 +25,7 @@ public class ChatRoom extends AppCompatActivity {
     RecyclerView chatList;
     MyChatAdapter adt;
     Date date = new Date();
+    SQLiteDatabase db;
 
 
     @Override
@@ -34,7 +35,7 @@ public class ChatRoom extends AppCompatActivity {
 
         EditText messageTyped = findViewById(R.id.messageEdit);
         MyOpenHelper opener = new MyOpenHelper( this );
-        SQLiteDatabase db = opener.getWritableDatabase();
+         db = opener.getWritableDatabase();
 
         Button send = findViewById(R.id.sendButton);
         Button receive = findViewById(R.id.receiveButton);
@@ -111,6 +112,13 @@ public class ChatRoom extends AppCompatActivity {
                     ChatMessage removedMessage = messages.get(position);
                     messages.remove(position);
                     adt.notifyItemRemoved( position );
+
+                    db.delete(MyOpenHelper.TABLE_NAME, "_id=?" , new String []{Long.toString(removedMessage.getId())});
+                    db.execSQL("Insert into" + MyOpenHelper.TABLE_NAME + "values('" + removedMessage.getId() +
+                            " ',' " + removedMessage.getMessage() +
+                            " ',' " + removedMessage.getSendOrReceive() +
+                            " ',' " + removedMessage.getTimeSent() + " ' ); ");
+
                     Snackbar.make(messageText, " You deleted message # " + position,Snackbar.LENGTH_LONG)
                             .setAction("Undo", clk ->{
                                 messages.add(position, removedMessage);
