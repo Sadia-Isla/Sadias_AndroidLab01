@@ -7,6 +7,7 @@ import android.content.Intent;
 
 
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -33,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
         EditText EmailAddress = findViewById(R.id.emailEditText);
 
+
         SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         String emailAddress = prefs.getString("LoginName", "");
+
 
         EmailAddress.setText(emailAddress);
 

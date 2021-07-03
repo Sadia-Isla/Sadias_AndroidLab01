@@ -18,7 +18,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("Create table " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
              + col_message + " TEXT,"
-             + col_send_receive + " TEXT,"
+             + col_send_receive + " INTEGER,"
              + col_time_sent + " TEXT);");
     }
 
@@ -28,7 +28,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(" drop table if exists " + TABLE_NAME);
+        db.execSQL("drop table if exists " + TABLE_NAME);
         onCreate(db);
     }
 }
