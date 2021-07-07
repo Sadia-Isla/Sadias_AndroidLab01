@@ -14,7 +14,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,16 +37,17 @@ public class ChatRoom extends AppCompatActivity {
 
         EditText messageTyped = findViewById(R.id.messageEdit);
         MyOpenHelper opener = new MyOpenHelper( this );
-         db = opener.getWritableDatabase();
+        db = opener.getWritableDatabase();
 
         Button send = findViewById(R.id.sendButton);
         Button receive = findViewById(R.id.receiveButton);
         chatList = findViewById(R.id.myrecycler);
+
         Cursor results = db.rawQuery("Select * from " + MyOpenHelper.TABLE_NAME + ";", null);
 
         int _idCol = results.getColumnIndex("_id");
         int messageCol = results.getColumnIndex(MyOpenHelper.col_message);
-        int sendCol = results.getColumnIndex(MyOpenHelper.col_message);
+        int sendCol = results.getColumnIndex(MyOpenHelper.col_send_receive);
         int timeCol = results.getColumnIndex(MyOpenHelper.col_time_sent);
        while(results.moveToNext()) {
            long id = results.getInt(_idCol);
@@ -114,12 +117,14 @@ public class ChatRoom extends AppCompatActivity {
                     adt.notifyItemRemoved( position );
 
                     db.delete(MyOpenHelper.TABLE_NAME, "_id=?" , new String []{Long.toString(removedMessage.getId())});
-                    db.execSQL("Insert into" + MyOpenHelper.TABLE_NAME + "values('" + removedMessage.getId() +
-                            " ',' " + removedMessage.getMessage() +
+
+                    db.execSQL("Insert into " + MyOpenHelper.TABLE_NAME + " values('" + removedMessage.getId() +
+                           " ',' " + removedMessage.getMessage() +
                             " ',' " + removedMessage.getSendOrReceive() +
                             " ',' " + removedMessage.getTimeSent() + " ' ); ");
 
-                    Snackbar.make(messageText, " You deleted message # " + position,Snackbar.LENGTH_LONG)
+
+                    Snackbar.make(messageText, " You deleted message # " + position, Snackbar.LENGTH_LONG)
                             .setAction("Undo", clk ->{
                                 messages.add(position, removedMessage);
                                 adt.notifyItemInserted(position);
