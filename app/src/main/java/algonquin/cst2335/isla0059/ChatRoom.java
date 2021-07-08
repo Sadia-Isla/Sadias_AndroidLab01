@@ -34,10 +34,10 @@ public class ChatRoom extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatlayout);
-
-        EditText messageTyped = findViewById(R.id.messageEdit);
         MyOpenHelper opener = new MyOpenHelper( this );
         db = opener.getWritableDatabase();
+        EditText messageTyped = findViewById(R.id.messageEdit);
+
 
         Button send = findViewById(R.id.sendButton);
         Button receive = findViewById(R.id.receiveButton);
@@ -111,21 +111,21 @@ public class ChatRoom extends AppCompatActivity {
                 .setTitle("Question: ")
                 .setNegativeButton( "No", (dialog, cl )-> {})
                 .setPositiveButton("Yes",(dialog, cl )-> {
-                   // position = getAbsoluteAdapterPosition();
+                    position = getAbsoluteAdapterPosition();
                     ChatMessage removedMessage = messages.get(position);
                     messages.remove(position);
-                    adt.notifyItemRemoved( position );
+                    adt.notifyItemRemoved(position);
 
                     db.delete(MyOpenHelper.TABLE_NAME, "_id=?" , new String []{Long.toString(removedMessage.getId())});
 
-                    db.execSQL("Insert into " + MyOpenHelper.TABLE_NAME + " values('" + removedMessage.getId() +
-                           " ',' " + removedMessage.getMessage() +
-                            " ',' " + removedMessage.getSendOrReceive() +
-                            " ',' " + removedMessage.getTimeSent() + " ' ); ");
-
-
                     Snackbar.make(messageText, " You deleted message # " + position, Snackbar.LENGTH_LONG)
                             .setAction("Undo", clk ->{
+
+                                db.execSQL("Insert into " + MyOpenHelper.TABLE_NAME + " values('" + removedMessage.getId() +
+                                        " ',' " + removedMessage.getMessage() +
+                                        " ',' " + removedMessage.getSendOrReceive() +
+                                        " ',' " + removedMessage.getTimeSent() + " ' )");
+
                                 messages.add(position, removedMessage);
                                 adt.notifyItemInserted(position);
 
