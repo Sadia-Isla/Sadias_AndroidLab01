@@ -99,9 +99,10 @@ public class ChatRoom extends AppCompatActivity {
     private class MyRowViews extends RecyclerView.ViewHolder{
         TextView messageText;
         TextView timeText;
-        int position;
+        int position = -1;
         public MyRowViews( View itemView) {
             super(itemView);
+
             messageText = itemView.findViewById(R.id.message);
             timeText = itemView.findViewById(R.id.time);
             itemView.setOnClickListener(click-> {
@@ -116,18 +117,18 @@ public class ChatRoom extends AppCompatActivity {
                     messages.remove(position);
                     adt.notifyItemRemoved(position);
 
-                    db.delete(MyOpenHelper.TABLE_NAME, "_id=?" , new String []{Long.toString(removedMessage.getId())});
+                    db.delete(MyOpenHelper.TABLE_NAME, "_id=?" , new String [] { Long.toString(removedMessage.getId())});
 
                     Snackbar.make(messageText, " You deleted message # " + position, Snackbar.LENGTH_LONG)
                             .setAction("Undo", clk ->{
-
                                 db.execSQL("Insert into " + MyOpenHelper.TABLE_NAME + " values('" + removedMessage.getId() +
-                                        " ',' " + removedMessage.getMessage() +
-                                        " ',' " + removedMessage.getSendOrReceive() +
-                                        " ',' " + removedMessage.getTimeSent() + " ' )");
+                                        "','" + removedMessage.getMessage() +
+                                        "','" + removedMessage.getSendOrReceive() +
+                                        "','" + removedMessage.getTimeSent() + "');");
 
                                 messages.add(position, removedMessage);
                                 adt.notifyItemInserted(position);
+
 
                             })
                             .show();
