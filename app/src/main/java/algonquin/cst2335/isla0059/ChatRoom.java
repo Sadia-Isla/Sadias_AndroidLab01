@@ -70,6 +70,7 @@ public class ChatRoom extends AppCompatActivity {
                     newRow.put(MyOpenHelper.col_send_receive, thisMessage.getSendOrReceive());
                     newRow.put(MyOpenHelper.col_time_sent, thisMessage.getTimeSent());
                     long newId = db.insert(MyOpenHelper.TABLE_NAME, MyOpenHelper.col_message, newRow);
+                    thisMessage.setId(newId);
 
                     messages.add( thisMessage );
                     messageTyped.setText(" ");
@@ -86,7 +87,7 @@ public class ChatRoom extends AppCompatActivity {
                     newRow.put(MyOpenHelper.col_send_receive, thisMessage.getSendOrReceive());
                     newRow.put(MyOpenHelper.col_time_sent, thisMessage.getTimeSent());
                     long newId = db.insert(MyOpenHelper.TABLE_NAME, MyOpenHelper.col_message, newRow);
-
+thisMessage.setId(newId);
                     messages.add( thisMessage );
                     messageTyped.setText(" ");
                     adt.notifyItemInserted( messages.size()-1);
