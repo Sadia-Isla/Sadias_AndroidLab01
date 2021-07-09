@@ -35,9 +35,10 @@ public class MessageDetailsFragment extends Fragment {
 
         });
         Button  deleteButton = detailsView.findViewById(R.id.deleteButton);
-            deleteButton.setOnClickListener(closeClicked ->{
+            deleteButton.setOnClickListener(deleteClicked ->{
                 ChatRoom parentActivity =(ChatRoom)getContext();
                 parentActivity.notifyManagerDeleted(chosenMessage, chosenPosition);
+                getParentFragmentManager().beginTransaction().remove(this).commit();
         });
 
         return detailsView;

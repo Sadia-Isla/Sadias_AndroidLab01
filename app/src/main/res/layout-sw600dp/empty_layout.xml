@@ -13,18 +13,12 @@
     android:id="@+id/fragmentRoom"
     android:background="@color/my_primary"
     />
-    <FrameLayout
+   <FrameLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/detailsRoom"
         android:background="@color/my_secondary"
         />
-    <FrameLayout
 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/newRoom"
-        android:background="@color/my_secondary"
-        />
 </LinearLayout>

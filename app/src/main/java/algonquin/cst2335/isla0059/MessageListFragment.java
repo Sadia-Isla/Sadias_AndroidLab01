@@ -35,13 +35,16 @@ public class MessageListFragment extends Fragment {
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View chatLayout = inflater.inflate(R.layout.chatlayout, container, false);
-       // send = chatLayout.findViewById(R.id.send_button);
+        send = chatLayout.findViewById(R.id.sendButton);
+        MyOpenHelper opener  = new MyOpenHelper(getContext());
+        db = opener.getWritableDatabase();
+
         EditText messageTyped = chatLayout.findViewById(R.id.messageEdit);
 
 
         Button send = chatLayout.findViewById(R.id.sendButton);
         Button receive = chatLayout.findViewById(R.id.receiveButton);
-        RecyclerView chatList = chatLayout.findViewById(R.id.myrecycler);
+         chatList = chatLayout.findViewById(R.id.myrecycler);
 
          Cursor results = db.rawQuery("Select * from " + MyOpenHelper.TABLE_NAME + ";", null);
 
@@ -70,7 +73,7 @@ public class MessageListFragment extends Fragment {
                         newRow.put(MyOpenHelper.col_send_receive, thisMessage.getSendOrReceive());
                         newRow.put(MyOpenHelper.col_time_sent, thisMessage.getTimeSent());
                         long newId = db.insert(MyOpenHelper.TABLE_NAME, MyOpenHelper.col_message, newRow);
-
+                        thisMessage.setId(newId);
                         messages.add( thisMessage );
                         messageTyped.setText(" ");
                         adt.notifyItemInserted( messages.size()-1);
@@ -86,7 +89,7 @@ public class MessageListFragment extends Fragment {
                         newRow.put(MyOpenHelper.col_send_receive, thisMessage.getSendOrReceive());
                         newRow.put(MyOpenHelper.col_time_sent, thisMessage.getTimeSent());
                         long newId = db.insert(MyOpenHelper.TABLE_NAME, MyOpenHelper.col_message, newRow);
-
+                        thisMessage.setId(newId);
                         messages.add( thisMessage );
                         messageTyped.setText(" ");
                         adt.notifyItemInserted( messages.size()-1);
@@ -102,9 +105,9 @@ public class MessageListFragment extends Fragment {
 
                     builder.setMessage("Do you want to delete the message: " + chosenMessage.getMessage())
                             .setTitle("Danger")
-                            .setNegativeButton( "Cancel", (dialog, cl )-> {})
+                            .setNegativeButton( "Cancel", (dialog, c )-> {})
                             .setPositiveButton("Delete",(dialog, cl )-> {
-                               // position = getAbsoluteAdapterPosition();
+                               //position = getAbsoluteAdapterPosition();
                                 ChatMessage removedMessage = messages.get(chosenPosition);
                                 messages.remove(chosenPosition);
                                 adt.notifyItemRemoved(chosenPosition);
