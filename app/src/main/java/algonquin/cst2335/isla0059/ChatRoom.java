@@ -16,7 +16,7 @@ public class ChatRoom extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.empty_layout);
-        boolean isTablet = findViewById( R.id.detailsRoom ) != null;
+         isTablet = findViewById( R.id.detailsRoom ) != null;
       //  getSupportFragmentManager().beginTransaction().add(R.id.fragmentRoom, new MessageListFragment()).commit();
       chatFragment = new MessageListFragment();
         FragmentManager fMgr = getSupportFragmentManager();
