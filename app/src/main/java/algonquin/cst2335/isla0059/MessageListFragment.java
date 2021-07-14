@@ -42,7 +42,7 @@ public class MessageListFragment extends Fragment {
         EditText messageTyped = chatLayout.findViewById(R.id.messageEdit);
 
 
-        Button send = chatLayout.findViewById(R.id.sendButton);
+        send = chatLayout.findViewById(R.id.sendButton);
         Button receive = chatLayout.findViewById(R.id.receiveButton);
          chatList = chatLayout.findViewById(R.id.myrecycler);
 
@@ -101,7 +101,7 @@ public class MessageListFragment extends Fragment {
 
     public void notifyMessageDeleted(ChatMessage chosenMessage, int chosenPosition) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
                     builder.setMessage("Do you want to delete the message: " + chosenMessage.getMessage())
                             .setTitle("Danger")
@@ -123,15 +123,10 @@ public class MessageListFragment extends Fragment {
                                                     "','" + removedMessage.getSendOrReceive() +
                                                     "','" + removedMessage.getTimeSent() + "');");
 
-
-
-
-
                                         })
                                         .show();
                             })
                             .create().show();
-
     }
 
     private class MyRowViews extends RecyclerView.ViewHolder{
@@ -146,7 +141,7 @@ public class MessageListFragment extends Fragment {
                 itemView.setOnClickListener(click-> {
 
                     ChatRoom parentActivity = (ChatRoom)getContext();
-                    int position = getLayoutPosition();
+                    position = getLayoutPosition();
                     parentActivity.userClickedMessage(messages.get(position), position);
 
 

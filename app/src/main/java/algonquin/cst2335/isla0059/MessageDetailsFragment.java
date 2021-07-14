@@ -6,15 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class MessageDetailsFragment extends Fragment {
 
     MessageListFragment.ChatMessage chosenMessage;
     int chosenPosition;
+
+    public MessageDetailsFragment(MessageListFragment.ChatMessage message, int position){
+        chosenMessage = message;
+        chosenPosition = position;
+    }
+
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         View detailsView = inflater.inflate(R.layout.details_layout, container, false);
@@ -43,10 +46,7 @@ public class MessageDetailsFragment extends Fragment {
 
         return detailsView;
     }
-    public MessageDetailsFragment(MessageListFragment.ChatMessage message, int position){
-        chosenMessage = message;
-        chosenPosition = position;
-    }
+
 
 
 }
