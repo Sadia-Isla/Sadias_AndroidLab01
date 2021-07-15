@@ -141,7 +141,7 @@ public class MessageListFragment extends Fragment {
                 itemView.setOnClickListener(click-> {
 
                     ChatRoom parentActivity = (ChatRoom)getContext();
-                    position = getLayoutPosition();
+                    position = getAdapterPosition();
                     parentActivity.userClickedMessage(messages.get(position), position);
 
 
