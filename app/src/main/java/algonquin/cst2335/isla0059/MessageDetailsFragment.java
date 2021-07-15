@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 public class MessageDetailsFragment extends Fragment {
 
@@ -31,14 +32,20 @@ public class MessageDetailsFragment extends Fragment {
 
         Button closeButton = detailsView.findViewById(R.id.closeButton);
         closeButton.setOnClickListener(closeClicked ->{
-            getParentFragmentManager().beginTransaction().remove(this ).commit();
+
+            ChatRoom parent = (ChatRoom)getContext();
+            FragmentManager mgr  = parent.getSupportFragmentManager();
+            mgr.beginTransaction().remove(this).commit();
+            //getParentFragmentManager().beginTransaction().remove(this ).commit();
 
         });
         Button  deleteButton = detailsView.findViewById(R.id.deleteButton);
             deleteButton.setOnClickListener(deleteClicked ->{
                 ChatRoom parentActivity =(ChatRoom)getContext();
                 parentActivity.notifyManagerDeleted(chosenMessage, chosenPosition);
-                getParentFragmentManager().beginTransaction().remove(this).commit();
+                ChatRoom parent = (ChatRoom)getContext();
+                FragmentManager mgr  = parent.getSupportFragmentManager();
+                mgr.beginTransaction().remove(this).commit();
         });
 
         return detailsView;
