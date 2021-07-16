@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
                 String cityName = cityText.getText().toString();
                 stringURL =" https://api.openweathermap.org/data/2.5/weather?q="
                         + URLEncoder.encode(cityName, "UTF-8")
-                        +"appid=7e943c97096a9784391a981c4d878b22&Units=Metric";
+                        +"&appid=7e943c97096a9784391a981c4d878b22&units=metric&mode=xml";
+
                 url = new URL (stringURL);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getErrorStream());
