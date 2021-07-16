@@ -2,6 +2,7 @@ package algonquin.cst2335.isla0059;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -114,50 +116,51 @@ public class MainActivity extends AppCompatActivity {
         } );
 
         Bitmap image = null;
-        try {
-            URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName + ".png");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        File file = new File(getFilesDir(), iconName + ".png");
+        if(file.exists()){
+            image = BitmapFactory.decodeFile(getFilesDir() + "/" +iconName + ".png");
         }
-        HttpURLConnection connection = null;
-        try {
-            connection = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            connection.connect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        int responseCode = 0;
-        try {
-            responseCode = connection.getResponseCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (responseCode == 200) {
+         else {
             try {
-                image = BitmapFactory.decodeStream(connection.getInputStream());
+                URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName + ".png");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            HttpURLConnection connection = null;
+            try {
+                connection = (HttpURLConnection) url.openConnection();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        FileOutputStream fOut = null;
-        try {
-            fOut = openFileOutput( iconName + ".png", Context.MODE_PRIVATE);
-            image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-            fOut.flush();
-            fOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                connection.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int responseCode = 0;
+            try {
+                responseCode = connection.getResponseCode();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (responseCode == 200) {
+                try {
+                    image = BitmapFactory.decodeStream(connection.getInputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+               // ImageView iv = findViewById(R.id.icon);
+              //  iv.setImageBitmap(image);
+                try {
+                    image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(iconName +".png", Activity.MODE_PRIVATE));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
 
         }
-
 
 
     }
-
-
 
 }
