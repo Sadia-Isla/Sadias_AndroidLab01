@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class MainActivity extends AppCompatActivity {
 
     private String stringURL;
-
+    String iconName;
     URL url;
 
     @Override
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     String description = position0.getString("description");
-                    String iconName = position0.getString("icon");
+                    iconName = position0.getString("icon");
                     // weatherArray = theDocument.getJSONArray ( "weather" );
                     int vis = theDocument.getInt("visibility");
                     String name = theDocument.getString("name");
@@ -168,16 +168,16 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("Connection error:", e.getMessage());
                 }
 
-                Bitmap image = null;
+                Bitmap image ;
 
 
-                File file = new File(getFilesDir(), icon + ".png");
+                File file = new File(getFilesDir(), icon +".png");
                 if (file.exists()) {
-                    image = BitmapFactory.decodeFile(getFilesDir() + "/" + iconName + ".png");
+                    image = BitmapFactory.decodeFile(getFilesDir() + "/" + iconName +".png");
                 } else {
 
                     try {
-                        URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName + ".png");
+                        URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName +".png");
 
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                         connection.connect();
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                         if (responseCode == 200) {
                             image = BitmapFactory.decodeStream(connection.getInputStream());
 
-                            image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(iconName + ".png", Activity.MODE_PRIVATE));
+                            image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(iconName +".png", Activity.MODE_PRIVATE));
                         }
 
                     } catch (IOException e) {
