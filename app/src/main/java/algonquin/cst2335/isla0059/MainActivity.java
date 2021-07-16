@@ -55,18 +55,20 @@ public class MainActivity extends AppCompatActivity {
         Button forecastBtn = findViewById(R.id.forecastButton);
         EditText cityText = findViewById(R.id.cityTextField);
         ImageView icon = findViewById(R.id.icon);
-        Executor newThread = Executors.newSingleThreadExecutor();
+        forecastBtn.setOnClickListener( click -> {
+            Executor newThread = Executors.newSingleThreadExecutor();
 
-        newThread.execute(() -> {
-            try {
-                String cityName = cityText.getText().toString();
-                stringURL = " https://api.openweathermap.org/data/2.5/weather?q="
-                        + URLEncoder.encode(cityName, "UTF-8")
-                        + "&appid=7e943c97096a9784391a981c4d878b22&units=metric&mode=xml";
+            newThread.execute(() -> {
+                try {
+                    String cityName = cityText.getText().toString();
+                    stringURL = "https://api.openweathermap.org/data/2.5/weather?q="
+                            + URLEncoder.encode(cityName, "UTF-8")
+                            + "&appid=7e943c97096a9784391a981c4d878b22&units=metric";
 
-                url = new URL(stringURL);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream in = new BufferedInputStream(urlConnection.getErrorStream());
+                    url = new URL(stringURL);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
 
 /**
  XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -114,80 +116,84 @@ public class MainActivity extends AppCompatActivity {
  }
  **/
 
-                String text = (new BufferedReader(
-                        new InputStreamReader(in, StandardCharsets.UTF_8)))
-                        .lines()
-                        .collect(Collectors.joining("\n"));
+                    String text = (new BufferedReader(
+                            new InputStreamReader(in, StandardCharsets.UTF_8)))
+                            .lines()
+                            .collect(Collectors.joining("\n"));
 
-                JSONObject theDocument = new JSONObject(text);
-                JSONObject coord = theDocument.getJSONObject("coord");
-                JSONArray theArray = new JSONArray( text );
-                JSONArray weatherArray = theDocument.getJSONArray("weather");
-                JSONObject position0 = weatherArray.getJSONObject(0);
-
-
-                String description = position0.getString("description");
-                String iconName = position0.getString("icon");
-                // weatherArray = theDocument.getJSONArray ( "weather" );
-                int vis = theDocument.getInt("visibility");
-                String name = theDocument.getString("name");
-                JSONObject mainObject = theDocument.getJSONObject("main");
-                double current = mainObject.getDouble("temp");
-                double min = mainObject.getDouble("temp_min");
-                double max = mainObject.getDouble("temp_max");
-                int humidity = mainObject.getInt("humidity");
-
-                runOnUiThread(() -> {
-                    TextView tv = findViewById(R.id.temp);
-                    tv.setText("The current temperature is" + current);
-                    tv.setVisibility(View.VISIBLE);
-
-                    tv = findViewById(R.id.minTemp);
-                    tv.setText("The min temperature is" + current);
-                    tv.setVisibility(View.VISIBLE);
-
-                    tv = findViewById(R.id.maxTemp);
-                    tv.setText("The max temperature is" + current);
-                    tv.setVisibility(View.VISIBLE);
-
-                    tv = findViewById(R.id.humidity);
-                    tv.setText("The humidity is" + current);
-                    tv.setVisibility(View.VISIBLE);
-
-                    tv = findViewById(R.id.description);
-                    tv.setText("The description is" + current);
-                    tv.setVisibility(View.VISIBLE);
+                    JSONObject theDocument = new JSONObject(text);
+                    JSONObject coord = theDocument.getJSONObject("coord");
+              //      JSONArray theArray = new JSONArray(text);
+                    JSONArray weatherArray = theDocument.getJSONArray("weather");
+                    JSONObject position0 = weatherArray.getJSONObject(0);
 
 
-                });
+                    String description = position0.getString("description");
+                    String iconName = position0.getString("icon");
+                    // weatherArray = theDocument.getJSONArray ( "weather" );
+                    int vis = theDocument.getInt("visibility");
+                    String name = theDocument.getString("name");
+                    JSONObject mainObject = theDocument.getJSONObject("main");
+                    double current = mainObject.getDouble("temp");
+                    double min = mainObject.getDouble("temp_min");
+                    double max = mainObject.getDouble("temp_max");
+                    int humidity = mainObject.getInt("humidity");
 
-            } catch (IOException | JSONException e) {
-                Log.e("Connection error:", e.getMessage());
-            }
+                    // runOnUiThread( Runnable );
+                    runOnUiThread(() -> {
+                        TextView tv = findViewById(R.id.temp);
+                        tv.setText("The current temperature is" + current);
+                        tv.setVisibility(View.VISIBLE);
 
-            Bitmap image = null;
-            File file = new File(getFilesDir(), icon + ".png");
-            if (file.exists()) {
-                image = BitmapFactory.decodeFile(getFilesDir() + "/" + icon + ".png");
-            } else {
+                        tv = findViewById(R.id.minTemp);
+                        tv.setText("The min temperature is" + current);
+                        tv.setVisibility(View.VISIBLE);
 
-                try {
-                    URL imgUrl = new URL("https://openweathermap.org/img/w/" + icon + ".png");
+                        tv = findViewById(R.id.maxTemp);
+                        tv.setText("The max temperature is" + current);
+                        tv.setVisibility(View.VISIBLE);
 
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.connect();
-                    int responseCode = connection.getResponseCode();
+                        tv = findViewById(R.id.humidity);
+                        tv.setText("The humidity is" + current);
+                        tv.setVisibility(View.VISIBLE);
 
-                    if (responseCode == 200) {
-                        image = BitmapFactory.decodeStream(connection.getInputStream());
+                        tv = findViewById(R.id.description);
+                        tv.setText("The description is" + current);
+                        tv.setVisibility(View.VISIBLE);
 
-                        image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(icon + ".png", Activity.MODE_PRIVATE));
-                    }
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    });
+
+                } catch (IOException | JSONException e) {
+                    Log.e("Connection error:", e.getMessage());
                 }
-            }
-        });
+
+                Bitmap image = null;
+
+
+                File file = new File(getFilesDir(), icon + ".png");
+                if (file.exists()) {
+                    image = BitmapFactory.decodeFile(getFilesDir() + "/" + iconName + ".png");
+                } else {
+
+                    try {
+                        URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName + ".png");
+
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.connect();
+                        int responseCode = connection.getResponseCode();
+
+                        if (responseCode == 200) {
+                            image = BitmapFactory.decodeStream(connection.getInputStream());
+
+                            image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(iconName + ".png", Activity.MODE_PRIVATE));
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        });//end of lambda function
     }
 }

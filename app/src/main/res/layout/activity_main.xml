@@ -16,7 +16,7 @@
         android:id="@+id/cityTextField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Type city name here"
+        android:hint="Type city name here"
        />
     <Button
         android:id="@+id/forecastButton"
