@@ -17,6 +17,8 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -64,6 +66,52 @@ public class MainActivity extends AppCompatActivity {
                 url = new URL (stringURL);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getErrorStream());
+
+/**
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(false);
+                XmlPullParser xpp = factory.newPullParser();
+                xpp.setInput( in  , "UTF-8");
+
+
+                String description = null;
+                String iconName = null;
+                String current = null;
+                String min = null;
+                String max = null;
+                String humidity = null;
+
+
+                while(xpp.next())!= XmlPullParser.END_DOCUMENT);
+                {
+                    switch (xpp.getEventType())
+                    {
+                        case XmlPullParser.START_TAG:
+                            if(xpp.getName().equals("temperature"))
+                            {
+                               xpp.getAttributeValue(null, "value");
+                                xpp.getAttributeValue(null, "min");
+                                xpp.getAttributeValue(null, "max");
+
+                            }
+                            else if (xpp.getName().equals("weather")
+                        {
+                            xpp.getAttributeValue(null, "value");
+                            xpp.getAttributeValue(null, "icon")
+                        }
+                        else (xpp.getName().equals(("humidity")))
+                        {
+                           humidity = xpp.getAttributeValue(null, "value") ;
+                        }
+                            break;
+                            case XmlPullParser.END_TAG:
+                                break;
+                                case XmlPullParser.TEXT:
+                                    break;
+
+                    }
+                }
+ **/
 
                 String text = (new BufferedReader(
                         new InputStreamReader(in, StandardCharsets.UTF_8)))
