@@ -28,7 +28,8 @@
         android:id="@+id/temp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Time goes here"
+        android:text="Temp goes here"
+        android:visibility="invisible"
         />
     <TextView
         android:id="@+id/maxTemp"

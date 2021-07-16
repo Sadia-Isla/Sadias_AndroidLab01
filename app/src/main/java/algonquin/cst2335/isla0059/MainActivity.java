@@ -45,72 +45,73 @@ import java.util.stream.Collectors;
 public class MainActivity extends AppCompatActivity {
 
     private String stringURL;
-    Button forecastBtn = findViewById(R.id.forecastButton);
-    EditText cityText = findViewById(R.id.cityTextField);
-    ImageView iconName = findViewById(R.id.icon);
+
     URL url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button forecastBtn = findViewById(R.id.forecastButton);
+        EditText cityText = findViewById(R.id.cityTextField);
+        ImageView icon = findViewById(R.id.icon);
         Executor newThread = Executors.newSingleThreadExecutor();
 
-        newThread.execute ( () -> {
-            try{
+        newThread.execute(() -> {
+            try {
                 String cityName = cityText.getText().toString();
-                stringURL =" https://api.openweathermap.org/data/2.5/weather?q="
+                stringURL = " https://api.openweathermap.org/data/2.5/weather?q="
                         + URLEncoder.encode(cityName, "UTF-8")
-                        +"&appid=7e943c97096a9784391a981c4d878b22&units=metric&mode=xml";
+                        + "&appid=7e943c97096a9784391a981c4d878b22&units=metric&mode=xml";
 
-                url = new URL (stringURL);
+                url = new URL(stringURL);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = new BufferedInputStream(urlConnection.getErrorStream());
 
 /**
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(false);
-                XmlPullParser xpp = factory.newPullParser();
-                xpp.setInput( in  , "UTF-8");
+ XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+ factory.setNamespaceAware(false);
+ XmlPullParser xpp = factory.newPullParser();
+ xpp.setInput( in  , "UTF-8");
 
 
-                String description = null;
-                String iconName = null;
-                String current = null;
-                String min = null;
-                String max = null;
-                String humidity = null;
+ String description = null;
+ String iconName = null;
+ String current = null;
+ String min = null;
+ String max = null;
+ String humidity = null;
 
 
-                while(xpp.next())!= XmlPullParser.END_DOCUMENT);
-                {
-                    switch (xpp.getEventType())
-                    {
-                        case XmlPullParser.START_TAG:
-                            if(xpp.getName().equals("temperature"))
-                            {
-                               xpp.getAttributeValue(null, "value");
-                                xpp.getAttributeValue(null, "min");
-                                xpp.getAttributeValue(null, "max");
+ while(xpp.next())!= XmlPullParser.END_DOCUMENT);
+ {
+ switch (xpp.getEventType())
+ {
+ case XmlPullParser.START_TAG:
+ if(xpp.getName().equals("temperature"))
+ {
+ xpp.getAttributeValue(null, "value");
+ xpp.getAttributeValue(null, "min");
+ xpp.getAttributeValue(null, "max");
 
-                            }
-                            else if (xpp.getName().equals("weather")
-                        {
-                            xpp.getAttributeValue(null, "value");
-                            xpp.getAttributeValue(null, "icon")
-                        }
-                        else (xpp.getName().equals(("humidity")))
-                        {
-                           humidity = xpp.getAttributeValue(null, "value") ;
-                        }
-                            break;
-                            case XmlPullParser.END_TAG:
-                                break;
-                                case XmlPullParser.TEXT:
-                                    break;
+ }
+ else if (xpp.getName().equals("weather")
+ {
+ xpp.getAttributeValue(null, "value");
+ xpp.getAttributeValue(null, "icon")
+ }
+ else (xpp.getName().equals(("humidity")))
+ {
+ humidity = xpp.getAttributeValue(null, "value") ;
+ }
+ break;
+ case XmlPullParser.END_TAG:
+ break;
+ case XmlPullParser.TEXT:
+ break;
 
-                    }
-                }
+ }
+ }
  **/
 
                 String text = (new BufferedReader(
@@ -118,9 +119,10 @@ public class MainActivity extends AppCompatActivity {
                         .lines()
                         .collect(Collectors.joining("\n"));
 
-                JSONObject theDocument = new JSONObject( text );
-                JSONObject coord = theDocument.getJSONObject( "coord" );
-                JSONArray weatherArray = theDocument.getJSONArray ( "weather" );
+                JSONObject theDocument = new JSONObject(text);
+                JSONObject coord = theDocument.getJSONObject("coord");
+                JSONArray theArray = new JSONArray( text );
+                JSONArray weatherArray = theDocument.getJSONArray("weather");
                 JSONObject position0 = weatherArray.getJSONObject(0);
 
 
@@ -128,14 +130,14 @@ public class MainActivity extends AppCompatActivity {
                 String iconName = position0.getString("icon");
                 // weatherArray = theDocument.getJSONArray ( "weather" );
                 int vis = theDocument.getInt("visibility");
-                String name = theDocument.getString( "name" );
-                JSONObject mainObject = theDocument.getJSONObject( "main" );
+                String name = theDocument.getString("name");
+                JSONObject mainObject = theDocument.getJSONObject("main");
                 double current = mainObject.getDouble("temp");
                 double min = mainObject.getDouble("temp_min");
                 double max = mainObject.getDouble("temp_max");
                 int humidity = mainObject.getInt("humidity");
 
-                runOnUiThread( (  )  -> {
+                runOnUiThread(() -> {
                     TextView tv = findViewById(R.id.temp);
                     tv.setText("The current temperature is" + current);
                     tv.setVisibility(View.VISIBLE);
@@ -156,60 +158,36 @@ public class MainActivity extends AppCompatActivity {
                     tv.setText("The description is" + current);
                     tv.setVisibility(View.VISIBLE);
 
+
                 });
 
+            } catch (IOException | JSONException e) {
+                Log.e("Connection error:", e.getMessage());
             }
-            catch(IOException | JSONException e){
-              Log.e("Connection error:", e.getMessage());
-            }
-        } );
 
-        Bitmap image = null;
-        File file = new File(getFilesDir(), iconName + ".png");
-        if(file.exists()){
-            image = BitmapFactory.decodeFile(getFilesDir() + "/" +iconName + ".png");
-        }
-         else {
-            try {
-                URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName + ".png");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            HttpURLConnection connection = null;
-            try {
-                connection = (HttpURLConnection) url.openConnection();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                connection.connect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            int responseCode = 0;
-            try {
-                responseCode = connection.getResponseCode();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (responseCode == 200) {
+            Bitmap image = null;
+            File file = new File(getFilesDir(), icon + ".png");
+            if (file.exists()) {
+                image = BitmapFactory.decodeFile(getFilesDir() + "/" + icon + ".png");
+            } else {
+
                 try {
-                    image = BitmapFactory.decodeStream(connection.getInputStream());
+                    URL imgUrl = new URL("https://openweathermap.org/img/w/" + icon + ".png");
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.connect();
+                    int responseCode = connection.getResponseCode();
+
+                    if (responseCode == 200) {
+                        image = BitmapFactory.decodeStream(connection.getInputStream());
+
+                        image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(icon + ".png", Activity.MODE_PRIVATE));
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-               // ImageView iv = findViewById(R.id.icon);
-              //  iv.setImageBitmap(image);
-                try {
-                    image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(iconName +".png", Activity.MODE_PRIVATE));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
             }
-
-        }
-
-
+        });
     }
-
 }
