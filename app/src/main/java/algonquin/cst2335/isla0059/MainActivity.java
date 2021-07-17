@@ -48,9 +48,16 @@ import java.util.stream.Collectors;
 public class MainActivity extends AppCompatActivity {
 
     private String stringURL;
-    String iconName;
+   // String iconName;
     URL url;
-    Bitmap image ;
+    Bitmap image = null ;
+    String description = null;
+    String iconName = null;
+    String current = null;
+    String min = null;
+    String max = null;
+    String humidity = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +65,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button forecastBtn = findViewById(R.id.forecastButton);
         EditText cityText = findViewById(R.id.cityTextField);
+
         ImageView icon = findViewById(R.id.icon);
+
         forecastBtn.setOnClickListener( click -> {
             String cityName = cityText.getText().toString();
             AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Getting forecast")
                     .setMessage("We're calling people in" + cityName + "to look outside their windows and tell us what's the weather look over there.")
                      .setView(new ProgressBar(MainActivity.this))
-                    .show();
+                     .show();
+
 
             Executor newThread = Executors.newSingleThreadExecutor();
 
@@ -79,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     url = new URL(stringURL);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-/**
+
                     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                     // ignore namespaces:
                     factory.setNamespaceAware(false);
@@ -91,12 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     //xpp is now pointing at BEGIN_DOCUMENT
                     //like Cursor starts at row -1
 
-                 String description = null;
-                 String iconName = null;
-                 String current = null;
-                 String min = null;
-                 String max = null;
-                 String humidity = null;
+
 
 
                  while( xpp.next() != XmlPullParser.END_DOCUMENT)
@@ -116,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 description =  xpp.getAttributeValue(null, "value");
                 iconName =  xpp.getAttributeValue(null, "icon");
                  }
-                 else (xpp.getName().equals ("humidity"))
+                 else if  (xpp.getName().equals ("humidity"))
                  {
                  humidity = xpp.getAttributeValue(null, "value") ;
                  }
@@ -128,7 +133,10 @@ public class MainActivity extends AppCompatActivity {
 
                  }
                  }
-                    **/
+
+
+
+                    /**
                     String text = (new BufferedReader(
                             new InputStreamReader(in, StandardCharsets.UTF_8)))
                             .lines()
@@ -150,9 +158,9 @@ public class MainActivity extends AppCompatActivity {
                     double current = mainObject.getDouble("temp");
                     double min = mainObject.getDouble("temp_min");
                     double max = mainObject.getDouble("temp_max");
-                    int humidity = mainObject.getInt("humidity");**/
+                    int humidity = mainObject.getInt("humidity");
 
-                    // runOnUiThread( Runnable );
+                    // runOnUiThread( Runnable );**/
                     runOnUiThread(() -> {
                         TextView tv = findViewById(R.id.temp);
                         tv.setText("The current temperature is" + current);
@@ -167,11 +175,11 @@ public class MainActivity extends AppCompatActivity {
                         tv.setVisibility(View.VISIBLE);
 
                         tv = findViewById(R.id.humidity);
-                        tv.setText("The humidity is" + current);
+                        tv.setText("The humidity is" + humidity + "%");
                         tv.setVisibility(View.VISIBLE);
 
                         tv = findViewById(R.id.description);
-                        tv.setText("The description is" + current);
+                        tv.setText(description);
                         tv.setVisibility(View.VISIBLE);
 
                         ImageView iv = findViewById(R.id. icon);
@@ -182,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
                     });
 
-                } catch (IOException | JSONException | XmlPullParserException e) {
+                } catch (IOException | XmlPullParserException e) {
                     Log.e("Connection error:", e.getMessage());
                 }
 
