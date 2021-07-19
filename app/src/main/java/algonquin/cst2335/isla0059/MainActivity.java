@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     URL url;
   //  ImageView iv;
    Bitmap image = null;
-  //  Bitmap image = ((BitmapDrawable) iv.getDrawable()).getBitmap();
+  // Bitmap image = ((BitmapDrawable) iv.getDrawable()).getBitmap();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,34 +108,32 @@ public class MainActivity extends AppCompatActivity {
                                     tv.setVisibility(View.VISIBLE);
 
                                     tv = findViewById(R.id.minTemp);
-                                    tv.setText("The min temperature is" + current);
+                                    tv.setText("The min temperature is" + min);
                                     tv.setVisibility(View.VISIBLE);
 
                                     tv = findViewById(R.id.maxTemp);
-                                    tv.setText("The max temperature is" + current);
+                                    tv.setText("The max temperature is" + max );
                                     tv.setVisibility(View.VISIBLE);
 
                                     tv = findViewById(R.id.humidity);
-                                    tv.setText("The humidity is" + current);
+                                    tv.setText("The humidity is" + humidity + "%");
                                     tv.setVisibility(View.VISIBLE);
 
                                     tv = findViewById(R.id.description);
-                                    tv.setText("The description is" + current);
+                                    tv.setText( description );
                                     tv.setVisibility(View.VISIBLE);
 
                                    ImageView iv = findViewById(R.id.icon);
                                     iv.setImageBitmap(image);
                                     iv.setVisibility(View.VISIBLE);
-                                    //   dialog.hide();
 
 
                                 });
 
-                            File file = new File(getFilesDir(), icon + ".png");
+                            File file = new File(getFilesDir(), iconName + ".png");
                             if (file.exists()) {
                                 image = BitmapFactory.decodeFile(getFilesDir() + "/" + iconName + ".png");
                             } else {
-
 
                                 URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName + ".png");
 
@@ -146,12 +144,22 @@ public class MainActivity extends AppCompatActivity {
                                 if (responseCode == 200) {
                                     image = BitmapFactory.decodeStream(connection.getInputStream());
                                     image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(iconName + ".png", Activity.MODE_PRIVATE));
-                                    // ImageView  iv = findViewById(R.id.icon);
-                                    //iv.setImageBitmap(image);
+                                     ImageView  iv = findViewById(R.id.icon);
+                                    iv.setImageBitmap(image);
+
+                                    FileOutputStream fOut = null;
+                                     image = ((BitmapDrawable) iv.getDrawable()).getBitmap();
+                                    fOut = openFileOutput( iconName + ".png", Context.MODE_PRIVATE);
+                                   image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                    fOut.flush();
+                                    fOut.close();
 
                                 }
 
                           }
+
+
+
 
                         } catch (IOException | JSONException e) {
                             Log.e("Connection error:", e.getMessage());
