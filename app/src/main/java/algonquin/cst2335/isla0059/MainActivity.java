@@ -16,30 +16,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 /**
  * @author sadia
@@ -49,7 +37,6 @@ import java.util.stream.Collectors;
 public class MainActivity extends AppCompatActivity {
 
     private String stringURL;
-   // String iconName;
     URL url;
     Bitmap image = null ;
     String description = null;
@@ -100,10 +87,6 @@ public class MainActivity extends AppCompatActivity {
                     XmlPullParser xpp = factory.newPullParser();
                     //read from in, like Scanner
                     xpp.setInput( in  , "UTF-8");
-                    //xpp is now pointing at BEGIN_DOCUMENT
-                    //like Cursor starts at row -1
-
-
 
 
                  while( xpp.next() != XmlPullParser.END_DOCUMENT)
@@ -136,33 +119,28 @@ public class MainActivity extends AppCompatActivity {
                  }
                  }
 
+                    File file = new File(getFilesDir(), iconName +".png");
+                    if (file.exists()) {
+                        image = BitmapFactory.decodeFile(getFilesDir() + "/" + iconName +".png");
+                    } else {
+
+                        URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName + ".png");
+
+                        HttpURLConnection connection = (HttpURLConnection) imgUrl.openConnection();
+                        connection.connect();
+                        int responseCode = connection.getResponseCode();
+
+                        if (responseCode == 200) {
+                            image = BitmapFactory.decodeStream(connection.getInputStream());
+
+                            image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(iconName + ".png", Activity.MODE_PRIVATE));
 
 
-                    /**
-                    String text = (new BufferedReader(
-                            new InputStreamReader(in, StandardCharsets.UTF_8)))
-                            .lines()
-                            .collect(Collectors.joining("\n"));
-
-                    JSONObject theDocument = new JSONObject(text);
-                    JSONObject coord = theDocument.getJSONObject("coord");
-              //      JSONArray theArray = new JSONArray(text);
-                    JSONArray weatherArray = theDocument.getJSONArray("weather");
-                    JSONObject position0 = weatherArray.getJSONObject(0);
+                        }
+                    }
 
 
-                    String description = position0.getString("description");
-                    iconName = position0.getString("icon");
-                    // weatherArray = theDocument.getJSONArray ( "weather" );
-                    int vis = theDocument.getInt("visibility");
-                    String name = theDocument.getString("name");
-                    JSONObject mainObject = theDocument.getJSONObject("main");
-                    double current = mainObject.getDouble("temp");
-                    double min = mainObject.getDouble("temp_min");
-                    double max = mainObject.getDouble("temp_max");
-                    int humidity = mainObject.getInt("humidity");
 
-                    // runOnUiThread( Runnable );**/
                     runOnUiThread(() -> {
                         TextView tv = findViewById(R.id.temp);
                         tv.setText("The current temperature is" + current);
@@ -191,36 +169,6 @@ public class MainActivity extends AppCompatActivity {
 
 
                     });
-                 // Bitmap image = null;
-                    File file = new File(getFilesDir(), iconName +".png");
-                    if (file.exists()) {
-                        image = BitmapFactory.decodeFile(getFilesDir() + "/" + iconName +".png");
-                    } else {
-
-
-                        URL imgUrl = new URL("https://openweathermap.org/img/w/" + iconName + ".png");
-
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.connect();
-                        int responseCode = connection.getResponseCode();
-
-                        if (responseCode == 200) {
-                            image = BitmapFactory.decodeStream(connection.getInputStream());
-
-                            image.compress(Bitmap.CompressFormat.PNG, 100, openFileOutput(iconName + ".png", Activity.MODE_PRIVATE));
-                            ImageView  iv = findViewById(R.id.icon);
-                            iv.setImageBitmap(image);
-
-                            FileOutputStream fOut = null;
-                            image = ((BitmapDrawable) iv.getDrawable()).getBitmap();
-                            fOut = openFileOutput( iconName + ".png", Context.MODE_PRIVATE);
-                            image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-                            fOut.flush();
-                            fOut.close();
-
-                        }
-                    }
-
 
 
                 } catch (IOException | XmlPullParserException e) {
